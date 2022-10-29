@@ -14,7 +14,8 @@ class Calculate: ObservableObject {
     @Published var calculationResult: String = ""
     
     func operators(_ operatorInput: String) {
-        if inputValues.isEmpty {
+        if inputValues.first == "" {
+            inputValues.removeFirst()
             if calculationResult.isEmpty {
                 inputValues.append("0")
             } else {
@@ -25,16 +26,18 @@ class Calculate: ObservableObject {
         switch operatorInput {
         case "+", "-", "*", "/":
             inputValues.append(operatorInput)
+            calculationLog = inputValues.joined(separator: " ")
         case "%":
             let percentNum: Double = (Double(inputValues.last ?? "0") ?? 0) * 0.01
             inputValues.removeLast()
             inputValues.append(String(percentNum))
+            calculationLog = inputValues.joined(separator: " ")
         default:
             break
         }
     }
     
-    func equal() {
+    func equal() -> String {
         var values: [String] = inputValues
         
         while values.contains("*") {
@@ -49,6 +52,8 @@ class Calculate: ObservableObject {
             if let divide = values.firstIndex(of: "/") {
                 let num1 = Double(values.remove(at: divide-1)) ?? 0
                 let num2 = Double(values.remove(at: divide)) ?? num1
+                
+                if num2 == 0 {  }
                 values[divide-1] = String(num1 / num2)
             }
         }
@@ -71,7 +76,8 @@ class Calculate: ObservableObject {
         
         inputValues.append("=")
         inputValues += values
-        
+        calculationResult = values.last ?? "0"
         calculationLog = inputValues.joined(separator: " ")
+        return calculationResult
     }
 }
