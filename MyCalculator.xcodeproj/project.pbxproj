@@ -11,6 +11,7 @@
 		63CE90B2290D6AAB00746B26 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CE90B1290D6AAB00746B26 /* ContentView.swift */; };
 		63CE90B4290D6AAC00746B26 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63CE90B3290D6AAC00746B26 /* Assets.xcassets */; };
 		63CE90B7290D6AAC00746B26 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63CE90B6290D6AAC00746B26 /* Preview Assets.xcassets */; };
+		63CE90BE290D93BB00746B26 /* Calculate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63CE90BD290D93BB00746B26 /* Calculate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		63CE90B1290D6AAB00746B26 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		63CE90B3290D6AAC00746B26 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		63CE90B6290D6AAC00746B26 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		63CE90BD290D93BB00746B26 /* Calculate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				63CE90AF290D6AAB00746B26 /* MyCalculatorApp.swift */,
 				63CE90B1290D6AAB00746B26 /* ContentView.swift */,
+				63CE90BD290D93BB00746B26 /* Calculate.swift */,
 				63CE90B3290D6AAC00746B26 /* Assets.xcassets */,
 				63CE90B5290D6AAC00746B26 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63CE90BE290D93BB00746B26 /* Calculate.swift in Sources */,
 				63CE90B2290D6AAB00746B26 /* ContentView.swift in Sources */,
 				63CE90B0290D6AAB00746B26 /* MyCalculatorApp.swift in Sources */,
 			);
