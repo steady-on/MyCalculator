@@ -12,31 +12,7 @@ class Calculate: ObservableObject {
     @Published var inputValues: [String] = []
     @Published var calculationLog: String = ""
     @Published var calculationResult: String = ""
-    
-    func operators(_ operatorInput: String) {
-        if inputValues.last == "" {
-            inputValues.removeLast()
-            if calculationResult.isEmpty {
-                inputValues.append("0")
-            } else {
-                inputValues.append(calculationResult)
-            }
-        }
         
-        switch operatorInput {
-        case "+", "-", "*", "/":
-            inputValues.append(operatorInput)
-            calculationLog = inputValues.joined(separator: " ")
-        case "%":
-            let percentNum: Double = (Double(inputValues.last ?? "0") ?? 0) * 0.01
-            inputValues.removeLast()
-            inputValues.append(String(percentNum))
-            calculationLog = inputValues.joined(separator: " ")
-        default:
-            break
-        }
-    }
-    
     func equal() -> String {
         var values: [String] = inputValues
         

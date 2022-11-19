@@ -7,13 +7,12 @@
 // 메모
 // 1. 다중 연산 로직 수정 필요(*, /를 우선 적용, +,-를 후적용 하되, 앞에 있는 것 먼저 계산 하도록
 // 1-1. 분모가 0일때 에러처리 필요
-// 2. 연산자에 이어서 연산자 눌렀을때 처리 필요
 
 import SwiftUI
 
 struct ContentView: View {
     @ObservedObject var calculate: Calculate = Calculate()
-    @State private var inputNum = "0"
+    @State private var inputNum: String = "0"
     
     var body: some View {
         VStack(alignment: .trailing) {
@@ -32,6 +31,7 @@ struct ContentView: View {
 struct ButtonsView: View {
     
     @ObservedObject var calculate: Calculate
+    @State private var isInputOperator: Bool = false
     @Binding var inputNum: String
     
     var body: some View {
@@ -88,11 +88,13 @@ struct ButtonsView: View {
     }
     
     func backSpace() {
-        if inputNum != "0" {
-            if inputNum.count == 1 {
-                inputNum = "0"
-            } else {
-                inputNum.removeLast()
+        if !isInputOperator {
+            if inputNum != "0" {
+                if inputNum.count == 1 {
+                    inputNum = "0"
+                } else {
+                    inputNum.removeLast()
+                }
             }
         }
     }
@@ -105,16 +107,14 @@ struct ButtonsView: View {
     }
     
     func operatorButtons(_ input: String) {
-        if calculate.calculationLog.contains("=") {
-            allClear()
-        }
-//        if ["+", "-", "*", "/"].contains(calculate.inputValues.last) {
-//            calculate.inputValues.removeLast()
-//            calculate.operators(input)
-//        } else {
+        if isInputOperator {
+            calculate.inputValues.removeLast()
+            calculate.inputValues.append(input)
+        } else {
+            isInputOperator = true
             calculate.inputValues.append(inputNum)
-            calculate.operators(input)
-//        }
+            calculate.inputValues.append(input)
+        }
     }
     
     func inputNumber(_ input: String) {
@@ -122,7 +122,10 @@ struct ButtonsView: View {
             allClear()
             clear()
         } else if inputNum == "-0" { inputNum.removeLast() }
-        else if ["+", "-", "*", "/"].contains(calculate.inputValues.last) { clear() }
+        else if isInputOperator {
+            isInputOperator = false
+            inputNum = ""
+        }
         
         switch input {
         case "0":
