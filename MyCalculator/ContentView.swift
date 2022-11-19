@@ -2,8 +2,12 @@
 //  ContentView.swift
 //  MyCalculator
 //
-//  Created by Ruhen White on 2022/10/29.
+//  Created by Roen White on 2022/10/29.
 //
+// 메모
+// 1. 다중 연산 로직 수정 필요(*, /를 우선 적용, +,-를 후적용 하되, 앞에 있는 것 먼저 계산 하도록
+// 1-1. 분모가 0일때 에러처리 필요
+// 2. 연산자에 이어서 연산자 눌렀을때 처리 필요
 
 import SwiftUI
 
@@ -12,7 +16,7 @@ struct ContentView: View {
     @State private var inputNum = "0"
     
     var body: some View {
-        VStack {
+        VStack(alignment: .trailing) {
             Spacer()
             VStack(spacing: 150) { // Texts area
                 Text(calculate.calculationLog).font(.title).foregroundColor(.gray)
@@ -36,8 +40,8 @@ struct ButtonsView: View {
                 VStack {
                     HStack { // AC, BS, % Buttons
                         inputNum == "0" ?
-                        Button(action: { allClear() }, label: {Text("AC").modifier(buttonTextStyle())}) :
-                        Button(action: { clear() }, label: {Text("C").modifier(buttonTextStyle())})
+                        Button(action: {allClear()}, label: {Text("AC").modifier(buttonTextStyle())}) :
+                        Button(action: {clear()}, label: {Text("C").modifier(buttonTextStyle())})
                         
                         Button(action: {backSpace()}, label: {Image(systemName: "delete.backward.fill").modifier(buttonTextStyle())})
                         Button(action: {calculate.operators("%")}, label: {Text("%").modifier(buttonTextStyle())})
@@ -69,22 +73,10 @@ struct ButtonsView: View {
                     .buttonStyle(.bordered)
                 }
                 VStack { // Operator Buttons
-                    Button(action: {
-                        calculate.inputValues.append(inputNum)
-                        calculate.operators("/")
-                    }, label: {Image(systemName: "divide").modifier(buttonTextStyle())})
-                    Button(action: {
-                        calculate.inputValues.append(inputNum)
-                        calculate.operators("*")
-                    }, label: {Image(systemName: "multiply").modifier(buttonTextStyle())})
-                    Button(action: {
-                        calculate.inputValues.append(inputNum)
-                        calculate.operators("-")
-                    }, label: {Image(systemName: "minus").modifier(buttonTextStyle())})
-                    Button(action: {
-                        calculate.inputValues.append(inputNum)
-                        calculate.operators("+")
-                    }, label: {Image(systemName: "plus").modifier(buttonTextStyle())})
+                    Button(action: { operatorButtons("/") }, label: {Image(systemName: "divide").modifier(buttonTextStyle())})
+                    Button(action: { operatorButtons("*") }, label: {Image(systemName: "multiply").modifier(buttonTextStyle())})
+                    Button(action: { operatorButtons("-") }, label: {Image(systemName: "minus").modifier(buttonTextStyle())})
+                    Button(action: { operatorButtons("+") }, label: {Image(systemName: "plus").modifier(buttonTextStyle())})
                     Button(action: {
                         calculate.inputValues.append(inputNum)
                         inputNum = calculate.equal()
@@ -113,11 +105,20 @@ struct ButtonsView: View {
     }
     
     func operatorButtons(_ input: String) {
-        
+        if calculate.calculationLog.contains("=") {
+            allClear()
+        }
+//        if ["+", "-", "*", "/"].contains(calculate.inputValues.last) {
+//            calculate.inputValues.removeLast()
+//            calculate.operators(input)
+//        } else {
+            calculate.inputValues.append(inputNum)
+            calculate.operators(input)
+//        }
     }
     
     func inputNumber(_ input: String) {
-        if inputNum == calculate.calculationResult {
+        if calculate.calculationLog.contains("=") {
             allClear()
             clear()
         } else if inputNum == "-0" { inputNum.removeLast() }
@@ -142,7 +143,6 @@ struct ButtonsView: View {
         default:
             break
         }
-        
     }
 }
 

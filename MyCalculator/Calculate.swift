@@ -2,7 +2,7 @@
 //  Calculate.swift
 //  MyCalculator
 //
-//  Created by Ruhen White on 2022/10/30.
+//  Created by Roen White on 2022/10/30.
 //
 
 import Foundation
@@ -14,8 +14,8 @@ class Calculate: ObservableObject {
     @Published var calculationResult: String = ""
     
     func operators(_ operatorInput: String) {
-        if inputValues.first == "" {
-            inputValues.removeFirst()
+        if inputValues.last == "" {
+            inputValues.removeLast()
             if calculationResult.isEmpty {
                 inputValues.append("0")
             } else {
